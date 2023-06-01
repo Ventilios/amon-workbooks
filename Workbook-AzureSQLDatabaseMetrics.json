@@ -1,0 +1,1039 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{AzureSQLLogAnalytics}"
+        ],
+        "parameters": [
+          {
+            "id": "bfd3ded2-1188-45c5-a8dd-77c7a37f7b3a",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeStamp",
+            "type": 4,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 300000
+                },
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ]
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": {
+              "durationMs": 172800000
+            }
+          },
+          {
+            "id": "af28b3dc-0946-483e-8b76-c93067115e68",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": true
+            },
+            "value": null
+          },
+          {
+            "id": "5a71ce9d-7be1-42bd-9011-b401ce3e35fd",
+            "version": "KqlParameterItem/1.0",
+            "name": "AzureSQLLogAnalytics",
+            "label": "Azure SQL Log Analytics",
+            "type": 5,
+            "isRequired": true,
+            "query": "where type =~ 'Microsoft.OperationalInsights/workspaces'\r\n| project id",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "0ae58b61-c34e-44bd-bad2-4c8f227f2833",
+            "version": "KqlParameterItem/1.0",
+            "name": "CheckDbWaitsAvailable",
+            "type": 1,
+            "query": "AzureDiagnostics\r\n| where Category == 'DatabaseWaitStatistics'\r\n| project 1\r\n| take 1",
+            "crossComponentResources": [
+              "{AzureSQLLogAnalytics}"
+            ],
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeStamp",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 0",
+      "styleSettings": {
+        "padding": "15px",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "814b066f-aa26-479d-9124-c9d562fb8ec6",
+            "cellValue": "GroupSelection",
+            "linkTarget": "parameter",
+            "linkLabel": "Overview",
+            "subTarget": "Overview",
+            "preText": "Overview",
+            "style": "link"
+          },
+          {
+            "id": "ffb31c75-a856-4982-a5f0-87d594ab7716",
+            "cellValue": "GroupSelection",
+            "linkTarget": "parameter",
+            "linkLabel": "Performance",
+            "subTarget": "Performance",
+            "preText": "Performance",
+            "style": "link"
+          },
+          {
+            "id": "65f3796b-0897-4a7d-a549-a294e8d54f44",
+            "cellValue": "GroupSelection",
+            "linkTarget": "parameter",
+            "linkLabel": "Auditing",
+            "subTarget": "Auditing",
+            "preText": "Auditing",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "links - 2"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "Overview",
+        "items": [
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "crossComponentResources": [
+                "{Subscription}"
+              ],
+              "parameters": [
+                {
+                  "id": "53c1e885-8688-467f-9b2a-04668a851237",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "ElasticPool",
+                  "label": "Select Elastic Pool",
+                  "type": 5,
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "where type =~ 'microsoft.sql/servers/elasticpools'\r\n| project id",
+                  "crossComponentResources": [
+                    "{Subscription}"
+                  ],
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::1",
+                      "value::all"
+                    ],
+                    "showDefault": false
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "defaultValue": "value::all",
+                  "queryType": 1,
+                  "resourceType": "microsoft.resourcegraph/resources",
+                  "value": [
+                    "value::all"
+                  ]
+                },
+                {
+                  "id": "790055fa-8eed-4798-83cf-d9363b67652e",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Databases",
+                  "label": "Select Database(s)",
+                  "type": 5,
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "where type =~ 'microsoft.sql/servers/databases'\r\n| project id",
+                  "crossComponentResources": [
+                    "{Subscription}"
+                  ],
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::1",
+                      "value::all"
+                    ]
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "defaultValue": "value::all",
+                  "queryType": 1,
+                  "resourceType": "microsoft.resourcegraph/resources",
+                  "value": [
+                    "value::all"
+                  ]
+                }
+              ],
+              "style": "pills",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources"
+            },
+            "name": "parameters - 3"
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbookec8c6089-6246-4573-808a-cd07ce9305d6",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 3,
+              "resourceType": "microsoft.sql/servers/elasticpools",
+              "metricScope": 0,
+              "resourceParameter": "ElasticPool",
+              "resourceIds": [
+                "{ElasticPool}"
+              ],
+              "timeContextFromParameter": "TimeStamp",
+              "timeContext": {
+                "durationMs": 172800000
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.sql/servers/elasticpools",
+                  "metric": "microsoft.sql/servers/elasticpools-Basic-cpu_percent",
+                  "aggregation": 4,
+                  "splitBy": null
+                }
+              ],
+              "title": "CPU% per Elastic Pools",
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "name": "metric - 0"
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbookc78b5c61-434b-4f48-9804-51e706ae82d0",
+              "version": "MetricsItem/2.0",
+              "size": 0,
+              "chartType": 2,
+              "resourceType": "microsoft.sql/servers/databases",
+              "metricScope": 0,
+              "resourceParameter": "Databases",
+              "resourceIds": [
+                "{Databases}"
+              ],
+              "timeContextFromParameter": "TimeStamp",
+              "timeContext": {
+                "durationMs": 172800000
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                  "aggregation": 4,
+                  "splitBy": null
+                }
+              ],
+              "title": "CPU% per Database",
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "name": "metric - 6"
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbook851f483c-d16d-46b7-bbc2-9cf1098a1bf0",
+              "version": "MetricsItem/2.0",
+              "size": 2,
+              "chartType": 0,
+              "resourceType": "microsoft.sql/servers/databases",
+              "metricScope": 0,
+              "resourceParameter": "Databases",
+              "resourceIds": [
+                "{Databases}"
+              ],
+              "timeContextFromParameter": "TimeStamp",
+              "timeContext": {
+                "durationMs": 172800000
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                  "aggregation": 4
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-physical_data_read_percent",
+                  "aggregation": 4
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-log_write_percent",
+                  "aggregation": 4
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-sessions_percent",
+                  "aggregation": 4
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-workers_percent",
+                  "aggregation": 4
+                }
+              ],
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "$gen_group",
+                    "formatter": 13,
+                    "formatOptions": {
+                      "linkTarget": "Resource",
+                      "showIcon": true
+                    }
+                  },
+                  {
+                    "columnMatch": "Group",
+                    "formatter": 13,
+                    "formatOptions": {
+                      "linkTarget": "Resource",
+                      "showIcon": true
+                    }
+                  },
+                  {
+                    "columnMatch": "Subscription",
+                    "formatter": 13,
+                    "formatOptions": {
+                      "linkTarget": "Resource",
+                      "showIcon": true
+                    }
+                  },
+                  {
+                    "columnMatch": "Name",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "greenRed"
+                    },
+                    "numberFormat": {
+                      "unit": 1,
+                      "options": {
+                        "style": "decimal"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-cpu_percent Timeline",
+                    "formatter": 21,
+                    "formatOptions": {
+                      "palette": "green"
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-physical_data_read_percent",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "greenRed"
+                    },
+                    "numberFormat": {
+                      "unit": 1,
+                      "options": {
+                        "style": "decimal"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-physical_data_read_percent Timeline",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-log_write_percent",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "greenRed"
+                    },
+                    "numberFormat": {
+                      "unit": 1,
+                      "options": {
+                        "style": "decimal"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-log_write_percent Timeline",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-sessions_percent",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "greenRed"
+                    },
+                    "numberFormat": {
+                      "unit": 1,
+                      "options": {
+                        "style": "decimal"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-sessions_percent Timeline",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-workers_percent",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "greenRed"
+                    },
+                    "numberFormat": {
+                      "unit": 1,
+                      "options": {
+                        "style": "decimal"
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-workers_percent Timeline",
+                    "formatter": 5
+                  }
+                ],
+                "rowLimit": 10000,
+                "hierarchySettings": {
+                  "treeType": 1,
+                  "groupBy": [
+                    "Subscription"
+                  ],
+                  "expandTopLevel": true,
+                  "finalBy": "Name"
+                },
+                "labelSettings": [
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                    "label": "CPU percentage (Average)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-cpu_percent Timeline",
+                    "label": "CPU percentage Timeline"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-physical_data_read_percent",
+                    "label": "Data IO percentage (Average)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-physical_data_read_percent Timeline",
+                    "label": "Data IO percentage Timeline"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-log_write_percent",
+                    "label": "Log IO percentage (Average)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-log_write_percent Timeline",
+                    "label": "Log IO percentage Timeline"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-sessions_percent",
+                    "label": "Sessions percentage (Average)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-sessions_percent Timeline",
+                    "label": "Sessions percentage Timeline"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-workers_percent",
+                    "label": "Workers percentage (Average)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-workers_percent Timeline",
+                    "label": "Workers percentage Timeline"
+                  }
+                ]
+              }
+            },
+            "name": "metric - 5"
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "GroupSelection",
+        "comparison": "isEqualTo",
+        "value": "Overview"
+      },
+      "name": "Overview"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "Performance",
+        "items": [
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "crossComponentResources": [
+                "{Subscription}"
+              ],
+              "parameters": [
+                {
+                  "id": "4ac4602c-bcb0-4559-a0c4-591f3c787737",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "PerformanceDatabase",
+                  "label": "Select Database",
+                  "type": 5,
+                  "isRequired": true,
+                  "query": "where type =~ 'microsoft.sql/servers/databases'\r\n| project id",
+                  "crossComponentResources": [
+                    "{Subscription}"
+                  ],
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::1"
+                    ],
+                    "showDefault": false
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "defaultValue": "value::1",
+                  "queryType": 1,
+                  "resourceType": "microsoft.resourcegraph/resources"
+                }
+              ],
+              "style": "pills",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources"
+            },
+            "name": "parameters - 4"
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbooke5cf7662-18c7-458a-b54f-12bf5a564cc5",
+              "version": "MetricsItem/2.0",
+              "size": 1,
+              "chartType": 2,
+              "resourceType": "microsoft.sql/servers/databases",
+              "metricScope": 0,
+              "resourceParameter": "PerformanceDatabase",
+              "resourceIds": [
+                "{PerformanceDatabase}"
+              ],
+              "timeContextFromParameter": "TimeStamp",
+              "timeContext": {
+                "durationMs": 0
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-deadlock",
+                  "aggregation": 1,
+                  "splitBy": null
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-sessions_count",
+                  "aggregation": 4
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-connection_successful",
+                  "aggregation": 1
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-connection_failed_user_error",
+                  "aggregation": 1
+                }
+              ],
+              "title": "Deadlocks, Sessions and Connections",
+              "gridFormatType": 1,
+              "tileSettings": {
+                "showBorder": false,
+                "titleContent": {
+                  "columnMatch": "Name",
+                  "formatter": 13
+                },
+                "leftContent": {
+                  "columnMatch": "Value",
+                  "formatter": 12,
+                  "formatOptions": {
+                    "palette": "auto"
+                  },
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "maximumSignificantDigits": 3,
+                      "maximumFractionDigits": 2
+                    }
+                  }
+                }
+              },
+              "mapSettings": {
+                "locInfo": "AzureResource",
+                "sizeSettings": "Value",
+                "sizeAggregation": "Sum",
+                "legendMetric": "Value",
+                "legendAggregation": "Sum",
+                "itemColorSettings": {
+                  "type": "heatmap",
+                  "colorAggregation": "Sum",
+                  "nodeColorField": "Value",
+                  "heatmapPalette": "greenRed"
+                },
+                "locInfoColumn": "Name"
+              },
+              "graphSettings": {
+                "type": 0,
+                "topContent": {
+                  "columnMatch": "Subscription",
+                  "formatter": 1
+                },
+                "centerContent": {
+                  "columnMatch": "Value",
+                  "formatter": 1,
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "maximumSignificantDigits": 3,
+                      "maximumFractionDigits": 2
+                    }
+                  }
+                }
+              },
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Subscription",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "Name",
+                    "formatter": 13,
+                    "formatOptions": {
+                      "linkTarget": "Resource"
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-cpu_percent Timeline",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                    "formatter": 1,
+                    "numberFormat": {
+                      "unit": 1,
+                      "options": null
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-sessions_count Timeline",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-sessions_count",
+                    "formatter": 1,
+                    "numberFormat": {
+                      "unit": 0,
+                      "options": null
+                    }
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-connection_successful Timeline",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "microsoft.sql/servers/databases-Basic-connection_successful",
+                    "formatter": 1,
+                    "numberFormat": {
+                      "unit": 0,
+                      "options": null
+                    }
+                  }
+                ],
+                "rowLimit": 10000,
+                "labelSettings": [
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                    "label": "CPU percentage (Average)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-cpu_percent Timeline",
+                    "label": "CPU percentage Timeline"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-sessions_count",
+                    "label": "Sessions count (Average)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-sessions_count Timeline",
+                    "label": "Sessions count Timeline"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-connection_successful",
+                    "label": "Successful Connections (Sum)"
+                  },
+                  {
+                    "columnId": "microsoft.sql/servers/databases-Basic-connection_successful Timeline",
+                    "label": "Successful Connections Timeline"
+                  }
+                ]
+              }
+            },
+            "customWidth": "50",
+            "name": "metric - 1"
+          },
+          {
+            "type": 10,
+            "content": {
+              "chartId": "workbook368166b5-d2c8-407d-a68a-489a4aeecf37",
+              "version": "MetricsItem/2.0",
+              "size": 1,
+              "chartType": 2,
+              "resourceType": "microsoft.sql/servers/databases",
+              "metricScope": 0,
+              "resourceParameter": "PerformanceDatabase",
+              "resourceIds": [
+                "{PerformanceDatabase}"
+              ],
+              "timeContextFromParameter": "TimeStamp",
+              "timeContext": {
+                "durationMs": 172800000
+              },
+              "metrics": [
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-physical_data_read_percent",
+                  "aggregation": 4,
+                  "splitBy": null
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-log_write_percent",
+                  "aggregation": 4
+                },
+                {
+                  "namespace": "microsoft.sql/servers/databases",
+                  "metric": "microsoft.sql/servers/databases-Basic-cpu_percent",
+                  "aggregation": 4
+                }
+              ],
+              "title": "Data & Log IO %",
+              "gridSettings": {
+                "rowLimit": 10000
+              }
+            },
+            "customWidth": "50",
+            "name": "metric - 4"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where tolower(ResourceId) == tolower('{PerformanceDatabase}')\r\n| where Category == 'DatabaseWaitStatistics'\r\n| summarize sum(delta_wait_time_ms_d) by wait_type_s\r\n| sort by sum_delta_wait_time_ms_d desc\r\n| render piechart ",
+              "size": 1,
+              "title": "Database Wait Statistics",
+              "timeContextFromParameter": "TimeStamp",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{AzureSQLLogAnalytics}"
+              ]
+            },
+            "customWidth": "50",
+            "conditionalVisibility": {
+              "parameterName": "CheckDbWaitsAvailable",
+              "comparison": "isEqualTo",
+              "value": "1"
+            },
+            "name": "query - 2"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "        AzureDiagnostics\r\n        | where tolower(ResourceId) == tolower('{PerformanceDatabase}')\r\n        | where Category == 'QueryStoreWaitStatistics'\r\n        | summarize sum(total_query_wait_time_ms_d) by wait_category_s\r\n        | sort by sum_total_query_wait_time_ms_d desc\r\n        | render piechart ",
+              "size": 1,
+              "title": "Query Store Wait Statistics",
+              "timeContextFromParameter": "TimeStamp",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{AzureSQLLogAnalytics}"
+              ]
+            },
+            "customWidth": "50",
+            "conditionalVisibility": {
+              "parameterName": "CheckDbWaitsAvailable",
+              "comparison": "isEqualTo",
+              "value": "1"
+            },
+            "showPin": false,
+            "name": "query - 6"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics \r\n| where tolower(ResourceId) == tolower('{PerformanceDatabase}')\r\n| where Category == \"QueryStoreRuntimeStatistics\"\r\n| summarize total_logical_io_writes = sum(logical_io_writes_d), \r\n           total_logical_io_reads = sum(logical_io_reads_d), \r\n           total_physical_io_reads = sum(physical_io_reads_d), \r\n           total_cpu_time = sum(cpu_time_d), \r\n           total_executions = sum(count_executions_d)\r\n    by query_hash_s\r\n| sort by total_cpu_time desc",
+              "size": 0,
+              "timeContextFromParameter": "TimeStamp",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{AzureSQLLogAnalytics}"
+              ],
+              "visualization": "table",
+              "tileSettings": {
+                "showBorder": false,
+                "titleContent": {
+                  "columnMatch": "query_hash_s",
+                  "formatter": 1
+                },
+                "leftContent": {
+                  "columnMatch": "total_logical_io_writes",
+                  "formatter": 12,
+                  "formatOptions": {
+                    "palette": "auto"
+                  },
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "maximumSignificantDigits": 3,
+                      "maximumFractionDigits": 2
+                    }
+                  }
+                }
+              },
+              "graphSettings": {
+                "type": 0,
+                "topContent": {
+                  "columnMatch": "query_hash_s",
+                  "formatter": 1
+                },
+                "centerContent": {
+                  "columnMatch": "total_logical_io_writes",
+                  "formatter": 1,
+                  "numberFormat": {
+                    "unit": 17,
+                    "options": {
+                      "maximumSignificantDigits": 3,
+                      "maximumFractionDigits": 2
+                    }
+                  }
+                }
+              },
+              "mapSettings": {
+                "locInfo": "LatLong",
+                "sizeSettings": "total_logical_io_writes",
+                "sizeAggregation": "Sum",
+                "legendMetric": "total_logical_io_writes",
+                "legendAggregation": "Sum",
+                "itemColorSettings": {
+                  "type": "heatmap",
+                  "colorAggregation": "Sum",
+                  "nodeColorField": "total_logical_io_writes",
+                  "heatmapPalette": "greenRed"
+                }
+              }
+            },
+            "conditionalVisibility": {
+              "parameterName": "CheckDbWaitsAvailable",
+              "comparison": "isEqualTo",
+              "value": "1"
+            },
+            "name": "query - 3"
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "GroupSelection",
+        "comparison": "isEqualTo",
+        "value": "Performance"
+      },
+      "name": "Performance"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "Auditing",
+        "items": [
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "crossComponentResources": [
+                "{Subscription}"
+              ],
+              "parameters": [
+                {
+                  "id": "ade737c2-bb19-4a1b-bd32-e57b4a842f91",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "PerformanceDatabase",
+                  "label": "Select Database",
+                  "type": 5,
+                  "isRequired": true,
+                  "query": "where type =~ 'microsoft.sql/servers/databases'\r\n| project id",
+                  "crossComponentResources": [
+                    "{Subscription}"
+                  ],
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::1"
+                    ],
+                    "showDefault": false
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "defaultValue": "value::1",
+                  "queryType": 1,
+                  "resourceType": "microsoft.resourcegraph/resources"
+                }
+              ],
+              "style": "pills",
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources"
+            },
+            "name": "parameters - 4 - Copy"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics \r\n| where tolower(ResourceId) == tolower('{PerformanceDatabase}')\r\n| where Category == 'SQLSecurityAuditEvents'\r\n| summarize countActionName = count() by action_name_s\r\n",
+              "size": 1,
+              "title": "Action events",
+              "timeContextFromParameter": "TimeStamp",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{AzureSQLLogAnalytics}"
+              ],
+              "visualization": "barchart"
+            },
+            "name": "query - 6"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics \r\n| where tolower(ResourceId) == tolower('{PerformanceDatabase}')\r\n| where Category == 'SQLSecurityAuditEvents'\r\n| where statement_s contains 'select' or statement_s contains 'insert' or statement_s contains 'exec'\r\n| project event_time_t ,statement_s , succeeded_s,affected_rows_d,server_principal_name_s ,client_ip_s,application_name_s,additional_information_s\r\n| order by event_time_t desc\r\n| take 100",
+              "size": 0,
+              "title": "Last 100 Select, Insert, Delete statements",
+              "timeContextFromParameter": "TimeStamp",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{AzureSQLLogAnalytics}"
+              ],
+              "visualization": "table"
+            },
+            "name": "query - 5"
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "GroupSelection",
+        "comparison": "isEqualTo",
+        "value": "Auditing"
+      },
+      "name": "Auditing"
+    }
+  ],
+  "fallbackResourceIds": [
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
